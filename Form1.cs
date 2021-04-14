@@ -12,86 +12,256 @@ namespace Lab3
 {
     public partial class Form1 : Form
     {
-        public Graphics graph;
-        public string name = "obj";
+        public int count = 1;
         public Form1()
         {
             InitializeComponent();
         }
         private void Button1_Click(object sender, EventArgs e)
         {
-            
+            CEmblem figure = new CEmblem("Фигура №" + count);
+            figure.Show();
+            figure.Draw(pictureBox1);
+            comboBox1.Items.Add(figure);
+            count++;
+        }
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            CEmblem figure = (CEmblem)comboBox1.SelectedItem;
+            figure.Hide();
+            figure.Draw(pictureBox1);
+        }
+        private void Button3_Click(object sender, EventArgs e)
+        {
+            CEmblem figure = (CEmblem)comboBox1.SelectedItem;
+            figure.Show();
+            figure.Draw(pictureBox1);
+        }
+        private void Button5_Click(object sender, EventArgs e)
+        {
+            CEmblem figure = (CEmblem)comboBox1.SelectedItem;
+            figure.Hide();
+            figure.Draw(pictureBox1);
+            figure.MoveU();
+            figure.Show();
+            figure.Draw(pictureBox1);
+        }
+        private void Button11_Click(object sender, EventArgs e)
+        {
+            CEmblem figure = (CEmblem)comboBox1.SelectedItem;
+            figure.Hide();
+            figure.Draw(pictureBox1);
+            figure.MoveR();
+            figure.Show();
+            figure.Draw(pictureBox1);
+        }
+        private void Button13_Click(object sender, EventArgs e)
+        {
+            CEmblem figure = (CEmblem)comboBox1.SelectedItem;
+            figure.Hide();
+            figure.Draw(pictureBox1);
+            figure.MoveL();
+            figure.Show();
+            figure.Draw(pictureBox1);
+        }
+        private void Button7_Click(object sender, EventArgs e)
+        {
+            CEmblem figure = (CEmblem)comboBox1.SelectedItem;
+            figure.Hide();
+            figure.Draw(pictureBox1);
+            figure.MoveD();
+            figure.Show();
+            figure.Draw(pictureBox1);
+        }
+        private void Button4_Click(object sender, EventArgs e)
+        {
+            CEmblem figure = (CEmblem)comboBox1.SelectedItem;
+            figure.Hide();
+            figure.Draw(pictureBox1);
+            figure.MoveUU();
+            figure.Show();
+            figure.Draw(pictureBox1);
+        }
+        private void Button12_Click(object sender, EventArgs e)
+        {
+            CEmblem figure = (CEmblem)comboBox1.SelectedItem;
+            figure.Hide();
+            figure.Draw(pictureBox1);
+            figure.MoveRR();
+            figure.Show();
+            figure.Draw(pictureBox1);
+        }
+        private void Button14_Click(object sender, EventArgs e)
+        {
+            CEmblem figure = (CEmblem)comboBox1.SelectedItem;
+            figure.Hide();
+            figure.Draw(pictureBox1);
+            figure.MoveLL();
+            figure.Show();
+            figure.Draw(pictureBox1);
+        }
+        private void Button6_Click(object sender, EventArgs e)
+        {
+            CEmblem figure = (CEmblem)comboBox1.SelectedItem;
+            figure.Hide();
+            figure.Draw(pictureBox1);
+            figure.MoveDD();
+            figure.Show();
+            figure.Draw(pictureBox1);
+        }
+        private void Button9_Click(object sender, EventArgs e)
+        {
+            CEmblem figure = (CEmblem)comboBox1.SelectedItem;
+            figure.Hide();
+            figure.Draw(pictureBox1);
+            figure.SizeU();
+            figure.Show();
+            figure.Draw(pictureBox1);
+        }
+        private void Button8_Click(object sender, EventArgs e)
+        {
+            CEmblem figure = (CEmblem)comboBox1.SelectedItem;
+            figure.Hide();
+            figure.Draw(pictureBox1);
+            figure.SizeD();
+            figure.Show();
+            figure.Draw(pictureBox1);
         }
     }
-    class Figure
+    public class CEmblem
     {
-        int x { get; set; }
-        int y { get; set; }
-        int size { get; set; }
+        static Random ran = new Random();
+        int x= ran.Next(0, 472);
+        int y= ran.Next(0, 326);
+        int size = 90;
         string name { get; set; }
-        Color color { get; set; }
+        Color color = Color.BlueViolet;
         Pen pen = new Pen(Color.BlueViolet, 1);
-        public Figure(string name, int size)
+        public CEmblem(string name)
         {
-            Random ran = new Random();
-            this.x = ran.Next(0, 472);
-            this.y = ran.Next(0, 326);
             this.name = name;
-            this.size = size;
         }
         public void Draw(PictureBox pictureBox1)
         {
+
             pen.Color = color;
             Graphics graph = pictureBox1.CreateGraphics();
-            Rectangle rect1 = new Rectangle(x, y, 90, 90);
+            Rectangle rect1 = new Rectangle(x, y, size, size);
             graph.DrawRectangle(pen, rect1);
-            graph.DrawEllipse(pen, x, y, 90, 90);
-            Rectangle rect2 = new Rectangle(x + 13, y + 13, 65, 65);
+            graph.DrawEllipse(pen, x, y, size, size);
+            Rectangle rect2 = new Rectangle(x + 13, y + 13, Convert.ToInt32(size/Math.Sqrt(2)), Convert.ToInt32(size / Math.Sqrt(2)));
             graph.DrawRectangle(pen, rect2);
         }
-        public delegate void del();
-        static del[] delegates = new del[]
+        public override string ToString()
         {
-            new del(()=>x++),
-            new del(()=>x--),
-            new del(()=>y++),
-            new del(()=>y--),
-            new del(()=>size++),
-            new del(()=>size--),
-            new del(()=>color=Color.White),
-            new del(()=>color=Color.BlueViolet)
-        };
+            return name;
+        }
         public void MoveU()
         {
-            del[3]();
+            if (y >= 1)
+            {
+                y--;
+            }
+            else
+            {
+                MessageBox.Show("Вы достигли границы холста");
+            }
         }
         public void MoveD()
         {
-            del[2]();
+            if (y<=326)
+            {
+                y++;
+            }
+            else
+            {
+                MessageBox.Show("Вы достигли границы холста");
+            }
         }
         public void MoveR()
         {
-            del[0]();
+            if (x<=472)
+            {
+                x++;
+            }
+            else
+            {
+                MessageBox.Show("Вы достигли границы холста");
+            }
         }
         public void MoveL()
         {
-            del[1]();
+            if (x>=1)
+            {
+                x--;
+            }
+            else
+            {
+                MessageBox.Show("Вы достигли границы холста");
+            }
+        }
+        public void MoveUU()
+        {
+            if (y>1)
+            {
+                y=1;
+            }
+        }
+        public void MoveDD()
+        {
+           if (y<=326)
+            {
+                y = 326;
+            }
+        }
+        public void MoveRR()
+        {
+            if (x <= 472)
+            {
+                x=472;
+            }
+        }
+        public void MoveLL()
+        {
+            if (x >= 1)
+            {
+                x=1;
+            }
         }
         public void SizeU()
         {
-            del[4]();
+            if (size <= 200)
+            {
+                size++;
+            }
+            else if (x+size>=570)
+            {
+                MessageBox.Show("Вы достигли границ холста");
+            }
+            else
+            {
+                MessageBox.Show("Достигнут максимальный размер фигуры!");
+            }
         }
         public void SizeD()
         {
-            del[5]();
+            if (size >= 25)
+            {
+                size--;
+            }
+            else
+            {
+                MessageBox.Show("Достигнут минимальный размер фигуры!");
+            }
+
         }
         public void Hide()
         {
-            del[6]();
+            color = PictureBox.DefaultBackColor;
         }
         public void Show()
         {
-            del[7]();
+            color = Color.BlueViolet;
         }
     }
 }
